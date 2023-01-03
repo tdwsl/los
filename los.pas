@@ -1,4 +1,4 @@
-{ line-of-sight without trigonometry }
+{ line-of-sight test }
 
 program LOS;
 
@@ -24,13 +24,16 @@ const
 
 function sees(x1, y1, x2, y2: integer): boolean;
 var
-  xd, yd, x, y, i: integer;
+  xd, yd, x, y, i, d: integer;
 begin
   xd := x2-x1;
   yd := y2-y1;
-  for i := 1 to 100 do begin
-    x := x1 + (xd*i) div 100;
-    y := y1 + (yd*i) div 100;
+  if xd < 0 then d := xd*-1 else d := xd;
+  if yd > d then d := yd
+  else if yd*-1 > d then d := yd*-1;
+  for i := 1 to d do begin
+    x := x1 + (xd*i) div d;
+    y := y1 + (yd*i) div d;
     if (x < 0) or (y < 0) or (x >= mapw) or (y >= maph) then begin
       sees := false;
       exit;
